@@ -22,7 +22,7 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreenState extends State<QuestionScreen> {
   CountDownController _countDownController = new CountDownController();
   int _counter = 0;
-  int _scoreCount= 0;
+  int _scoreCount = 0;
   final List<Color> optionColors = [
     Colors.amber,
     Colors.blueAccent,
@@ -153,27 +153,32 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     childAspectRatio: MediaQuery.of(context).size.width / 350.h,
                     children: List.generate(4, (index) {
                       OptionsData optionsData = new OptionsData(
-                        color: optionColors[index],
-                        isCorrect: options[index] ==
-                            widget.questions.results[_counter].correctAnswer,
-                        option: options[index],
-                        optionLetter: ["A", "B", "C", "D"][index],
-                        correctAnswer: widget.questions.results[_counter].correctAnswer
-                      );
+                          color: optionColors[index],
+                          isCorrect: options[index] ==
+                              widget.questions.results[_counter].correctAnswer,
+                          option: options[index],
+                          optionLetter: ["A", "B", "C", "D"][index],
+                          correctAnswer:
+                              widget.questions.results[_counter].correctAnswer);
                       return SizedBox(
                         child: Hero(
                           tag: options[index],
                           child: GestureDetector(
-                            onTap: ()async{
+                            onTap: () async {
                               _countDownController.pause();
-                              await  Navigator.of(context).push(AnimatedPageRoute(CorrectAnswerScreen(
+                              if(options[index] == widget.questions.results[_counter].correctAnswer)
+                                ++_scoreCount;
+                              await Navigator.of(context)
+                                  .push(AnimatedPageRoute(CorrectAnswerScreen(
                                 data: optionsData,
+                                questionNumber: _counter+1,
+                                score: _scoreCount,
                               )));
 
                               nextQuestion();
                             },
                             child: OptionCard(
-                             optionsData: optionsData,
+                              optionsData: optionsData,
                             ),
                           ),
                         ),
@@ -194,7 +199,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 }
 
 class OptionCard extends StatefulWidget {
- final OptionsData optionsData;
+  final OptionsData optionsData;
 
   OptionCard({@required this.optionsData});
 
@@ -241,5 +246,3 @@ class _OptionCardState extends State<OptionCard> {
     );
   }
 }
-
-

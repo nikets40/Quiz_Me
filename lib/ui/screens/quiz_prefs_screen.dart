@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,6 +19,7 @@ class _QuizPrefsState extends State<QuizPrefs> {
 
   Categories _categories = new Categories();
   String difficultyLevel = "Easy";
+  var textGroup = AutoSizeGroup();
 
   @override
   void initState() {
@@ -219,69 +221,83 @@ class _QuizPrefsState extends State<QuizPrefs> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        FlatButton(
-                            padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            onPressed: () {
-                              setState(() {
-                                difficultyLevel = "Easy";
-                              });
-                            },
-                            color: Color(0xffE6F8E4),
-                            height: 60.h,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(13.h),
-                                side:
-                                BorderSide(width: 4, color: Color(0xff72DC73))),
-                            child: Text(
-                              "Easy",
-                              style: GoogleFonts.poppins(
-                                  color: Color(0xff72DC73),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 24.sp),
-                            )),
-                        FlatButton(
-                            padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            onPressed: () {
-                              setState(() {
-                                difficultyLevel = "Medium";
-                              });
-                            },
-                            color: Color(0xffFFE4CD),
-                            height: 60.h,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(13.h),
-                                side:
-                                BorderSide(width: 4, color: Color(0xffFA9224))),
-                            child: Text(
-                              "Medium",
-                              style: GoogleFonts.poppins(
-                                  color: Color(0xffFA9224),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 24.sp),
-                            )),
-                        FlatButton(
-                            padding:
-                            EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            onPressed: () {
-                              setState(() {
-                                difficultyLevel = "Hard";
-                              });
-                            },
-                            color: Color(0xffFFD5D6),
-                            height: 60.h,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(13.h),
-                                side:
-                                BorderSide(width: 4, color: Color(0xffF84D57))),
-                            child: Text(
-                              "Hard",
-                              style: GoogleFonts.poppins(
-                                  color: Color(0xffF84D57),
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 24.sp),
-                            )),
+                        Expanded(
+                          child: FlatButton(
+                              padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                              onPressed: () {
+                                setState(() {
+                                  difficultyLevel = "Easy";
+                                });
+                              },
+                              color: Color(0xffE6F8E4),
+                              height: 60.h,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.h),
+                                  side:
+                                  BorderSide(width: 4, color: Color(0xff72DC73))),
+                              child: AutoSizeText(
+                                "Easy",
+                                maxLines: 1,
+                                group: textGroup,
+                                style: GoogleFonts.poppins(
+                                    color: Color(0xff72DC73),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.sp),
+                              )),
+                        ),
+                        SizedBox(width: 10.w,),
+                        Expanded(
+                          child: FlatButton(
+                              padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                              onPressed: () {
+                                setState(() {
+                                  difficultyLevel = "Medium";
+                                });
+                              },
+                              color: Color(0xffFFE4CD),
+                              height: 60.h,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.h),
+                                  side:
+                                  BorderSide(width: 4, color: Color(0xffFA9224))),
+                              child: AutoSizeText(
+                                "Medium",
+                                group: textGroup,
+                                maxLines: 1,
+                                style: GoogleFonts.poppins(
+                                    color: Color(0xffFA9224),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.sp),
+                              )),
+                        ),
+                        SizedBox(width: 10.w,),
+                        Expanded(
+                          child: FlatButton(
+                              padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                              onPressed: () {
+                                setState(() {
+                                  difficultyLevel = "Hard";
+                                });
+                              },
+                              color: Color(0xffFFD5D6),
+                              height: 60.h,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.h),
+                                  side:
+                                  BorderSide(width: 4, color: Color(0xffF84D57))),
+                              child: AutoSizeText(
+                                "Hard",
+                                maxLines: 1,
+                                group: textGroup,
+                                style: GoogleFonts.poppins(
+                                    color: Color(0xffF84D57),
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 20.sp),
+                              )),
+                        ),
                       ],
                     ),
                     Spacer(),
@@ -321,7 +337,7 @@ class _QuizPrefsState extends State<QuizPrefs> {
                                 child: Icon(Icons.keyboard_arrow_right_rounded,
                                   color: Colors.deepPurple, size: 50,)),
                             Text(
-                              "Continue",
+                              "Start Quiz",
                               style: GoogleFonts.poppins(
                                   fontSize: 24.sp,
                                   fontWeight: FontWeight.bold,

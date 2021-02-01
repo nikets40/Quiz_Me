@@ -9,12 +9,15 @@ import 'package:quiz_app/models/optionsData.dart';
 import 'package:quiz_app/ui/screens/get_ready_screen.dart';
 import 'package:quiz_app/ui/screens/questionScreen.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/ui/screens/score_screen.dart';
 
 class CorrectAnswerScreen extends StatefulWidget {
   final OptionsData data;
-  final int index;
+  final int score;
+  final int questionNumber;
 
-  CorrectAnswerScreen({this.data, this.index});
+
+  CorrectAnswerScreen({this.data, this.score,this.questionNumber});
 
   @override
   _CorrectAnswerScreenState createState() => _CorrectAnswerScreenState();
@@ -94,8 +97,14 @@ class _CorrectAnswerScreenState extends State<CorrectAnswerScreen> {
                                   setState(() {
                                     showScreen=false;
                                   });
-                                  await Navigator.of(context).push(AnimatedPageRoute(GetReadyScreen()));
-                                  Navigator.of(context).pop();
+                                  if(widget.questionNumber==10)
+                                    {
+                                      Navigator.of(context).push(AnimatedPageRoute(ScoreScreen(score: widget.score,)));
+                                    }
+                                  else{
+                                    await Navigator.of(context).push(AnimatedPageRoute(GetReadyScreen()));
+                                    Navigator.of(context).pop();
+                                  }
                                 });
                                 setState(() {
                                   showMessage = true;
