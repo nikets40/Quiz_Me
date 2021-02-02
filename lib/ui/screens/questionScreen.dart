@@ -10,6 +10,7 @@ import 'package:quiz_app/models/questions.dart';
 import 'package:quiz_app/ui/screens/correct_answer_screen.dart';
 import 'package:quiz_app/customRoute.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:quiz_app/ui/screens/score_screen.dart';
 
 class QuestionScreen extends StatefulWidget {
   final Questions questions;
@@ -53,6 +54,8 @@ class _QuestionScreenState extends State<QuestionScreen> {
         updateOptions();
         _countDownController.restart();
       });
+    else
+      Navigator.pushAndRemoveUntil(context, AnimatedPageRoute(ScoreScreen(score: _scoreCount,)), (route) => false);
   }
 
   @override
