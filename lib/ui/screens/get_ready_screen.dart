@@ -41,30 +41,33 @@ class _GetReadyScreenState extends State<GetReadyScreen> {
             Color(0xff7435E4),
             Color(0xff2B0F92),
           ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-      child: Scaffold(
-        body: SafeArea(
-          child: AnimatedOpacity(
-            opacity: showScreen?1:0,
-            duration: Duration(milliseconds: 500),
-            child: Container(
-              width: double.infinity,
-              child: Center(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Get Ready", style: GoogleFonts.poppins(fontSize: 55.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),),
-                    Text("0$time", style: GoogleFonts.poppins(fontSize: 120.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),)
-                  ],
+      child: WillPopScope(
+        onWillPop: ()async=>false,
+        child: Scaffold(
+          body: SafeArea(
+            child: AnimatedOpacity(
+              opacity: showScreen?1:0,
+              duration: Duration(milliseconds: 500),
+              child: Container(
+                width: double.infinity,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text("Get Ready", style: GoogleFonts.poppins(fontSize: 55.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),),
+                      Text("0$time", style: GoogleFonts.poppins(fontSize: 120.sp,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white),)
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
 
+        ),
       ),
     );
   }

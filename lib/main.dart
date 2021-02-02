@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:quiz_app/ui/screens/quiz_prefs_screen.dart';
-import 'package:quiz_app/ui/screens/score_screen.dart';
 
 void main() {
   runApp(MyApp());

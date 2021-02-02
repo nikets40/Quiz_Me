@@ -53,137 +53,140 @@ class _CorrectAnswerScreenState extends State<CorrectAnswerScreen> {
           Color(0xff7435E4),
           Color(0xff2B0F92),
         ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: Container(
-            child: Center(
-              child: Opacity(
-                opacity:showScreen?1:0,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    AnimatedOpacity(
-                      duration: Duration(milliseconds: 300),
-                      opacity: showMessage ? 1 : 0,
-                      child: Text(
-                        widget.data.isCorrect ? "Correct!" : "Oops!",
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 54.sp,
-                            color: Colors.white),
+        child: WillPopScope(
+          onWillPop: ()async=>false,
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: Container(
+              child: Center(
+                child: Opacity(
+                  opacity:showScreen?1:0,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedOpacity(
+                        duration: Duration(milliseconds: 300),
+                        opacity: showMessage ? 1 : 0,
+                        child: Text(
+                          widget.data.isCorrect ? "Correct!" : "Oops!",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 54.sp,
+                              color: Colors.white),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 2,
-                      child: AspectRatio(
-                        aspectRatio: 1.25,
-                        child: Container(
-                            child: ConfettiWidget(
-                          confettiController: _confettiController,
-                          blastDirectionality: BlastDirectionality.explosive,
-                          blastDirection: pi,
-                          child: Hero(
-                            tag: widget.data.option,
-                            child: FlipCard(
-                              flipOnTouch: true,
-                              onFlipDone: (bool) {
-                                if (widget.data.isCorrect)
-                                  _confettiController.play();
-                                Future.delayed(Duration(seconds: 3), () async{
-                                  setState(() {
-                                    showScreen=false;
-                                  });
-                                  if(widget.questionNumber==10)
-                                    {
-                                      Navigator.of(context).push(AnimatedPageRoute(ScoreScreen(score: widget.score,)));
+                      SizedBox(
+                        height: 30.h,
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 2,
+                        child: AspectRatio(
+                          aspectRatio: 1.25,
+                          child: Container(
+                              child: ConfettiWidget(
+                            confettiController: _confettiController,
+                            blastDirectionality: BlastDirectionality.explosive,
+                            blastDirection: pi,
+                            child: Hero(
+                              tag: widget.data.option,
+                              child: FlipCard(
+                                flipOnTouch: false,
+                                onFlipDone: (bool) {
+                                  if (widget.data.isCorrect)
+                                    _confettiController.play();
+                                  Future.delayed(Duration(seconds: 3), () async{
+                                    setState(() {
+                                      showScreen=false;
+                                    });
+                                    if(widget.questionNumber==10)
+                                      {
+                                        Navigator.of(context).pushAndRemoveUntil(AnimatedPageRoute(ScoreScreen(score: widget.score,)),(route) => false);
+                                      }
+                                    else{
+                                      await Navigator.of(context).push(AnimatedPageRoute(GetReadyScreen()));
+                                      Navigator.of(context).pop();
                                     }
-                                  else{
-                                    await Navigator.of(context).push(AnimatedPageRoute(GetReadyScreen()));
-                                    Navigator.of(context).pop();
-                                  }
-                                });
-                                setState(() {
-                                  showMessage = true;
-                                });
-                              },
-                              speed: 1000,
-                              key: cardKey,
-                              back: Card(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: widget.data.isCorrect
-                                      ? CircleAvatar(
-                                          backgroundColor: Colors.green,
-                                          radius:
-                                              MediaQuery.of(context).size.width /
-                                                  6,
-                                          child: Icon(
-                                            Icons.check_rounded,
-                                            color: Colors.white,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3,
+                                  });
+                                  setState(() {
+                                    showMessage = true;
+                                  });
+                                },
+                                speed: 1000,
+                                key: cardKey,
+                                back: Card(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: widget.data.isCorrect
+                                        ? CircleAvatar(
+                                            backgroundColor: Colors.green,
+                                            radius:
+                                                MediaQuery.of(context).size.width /
+                                                    6,
+                                            child: Icon(
+                                              Icons.check_rounded,
+                                              color: Colors.white,
+                                              size: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
+                                            ),
+                                          )
+                                        : CircleAvatar(
+                                            backgroundColor: Colors.redAccent,
+                                            radius:
+                                                MediaQuery.of(context).size.width /
+                                                    6,
+                                            child: Icon(
+                                              Icons.close_rounded,
+                                              color: Colors.white,
+                                              size: MediaQuery.of(context)
+                                                      .size
+                                                      .width /
+                                                  3,
+                                            ),
                                           ),
-                                        )
-                                      : CircleAvatar(
-                                          backgroundColor: Colors.redAccent,
-                                          radius:
-                                              MediaQuery.of(context).size.width /
-                                                  6,
-                                          child: Icon(
-                                            Icons.close_rounded,
-                                            color: Colors.white,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                3,
-                                          ),
-                                        ),
+                                  ),
+                                ),
+                                front: OptionCard(
+                                  optionsData: widget.data,
                                 ),
                               ),
-                              front: OptionCard(
-                                optionsData: widget.data,
-                              ),
                             ),
-                          ),
-                        )),
+                          )),
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 30.h,
-                    ),
-                    AnimatedOpacity(
-                      duration: Duration(milliseconds: 300),
-                      opacity: (!widget.data.isCorrect && showMessage) ? 1 : 0,
-                      child: Column(
-                        children: [
-                          Text(
-                            "The Correct Answer is",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 24.sp,
-                                color: Colors.white),
-                          ),
-                          Text(
-                            "${widget.data.correctAnswer}",
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 26.sp,
-                                color: Colors.white),
-                          ),
-                        ],
+                      SizedBox(
+                        height: 30.h,
                       ),
-                    )
-                  ],
+                      AnimatedOpacity(
+                        duration: Duration(milliseconds: 300),
+                        opacity: (!widget.data.isCorrect && showMessage) ? 1 : 0,
+                        child: Column(
+                          children: [
+                            Text(
+                              "The Correct Answer is",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 24.sp,
+                                  color: Colors.white),
+                            ),
+                            Text(
+                              "${widget.data.correctAnswer}",
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 26.sp,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

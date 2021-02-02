@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -64,62 +65,62 @@ class _QuestionScreenState extends State<QuestionScreen> {
       ], begin: Alignment.topLeft, end: Alignment.bottomRight)),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: Center(
-            child: Column(
-              children: [
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Spacer(),
-                    SvgPicture.asset(
-                      "assets/icons/book.svg",
-                      height: 40.h,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    ),
-                    Text(
-                      "Quiz ME :-   ",
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                              fontSize: 32.sp,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white)),
-                    ),
-                    // Spacer(),
-                    Text(
-                      "${_counter + 1}/${widget.questions.results.length}",
-                      style: GoogleFonts.poppins(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 30.sp,
-                          color: Colors.white),
-                    ),
-                    Spacer(),
-                  ],
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child:
-                      AutoSizeText(widget.questions.results[_counter].question,
-                          textAlign: TextAlign.center,
-                          maxLines: 3,
-                          style: GoogleFonts.poppins(
+        body: DoubleBackToCloseApp(
+          snackBar: const SnackBar(
+            content: Text('Tap back again to leave the quiz')),
+          child: SafeArea(
+            child: Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Spacer(),
+                      SvgPicture.asset(
+                        "assets/icons/book.svg",
+                        height: 40.h,
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Text(
+                        "Quiz ME :-   ",
+                        style: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Colors.white,
+                                fontSize: 32.sp,
                                 fontWeight: FontWeight.w700,
-                                fontSize: 25.sp),
-                          )),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: _countDownController.start,
-                  onLongPress: _countDownController.pause,
-                  child: CircularCountDownTimer(
+                                color: Colors.white)),
+                      ),
+                      // Spacer(),
+                      Text(
+                        "${_counter + 1}/${widget.questions.results.length}",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 30.sp,
+                            color: Colors.white),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child:
+                        AutoSizeText(widget.questions.results[_counter].question,
+                            textAlign: TextAlign.center,
+                            maxLines: 3,
+                            style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 25.sp),
+                            )),
+                  ),
+                  Spacer(),
+                  CircularCountDownTimer(
                     onComplete: nextQuestion,
                     duration: 60,
                     controller: _countDownController,
@@ -141,55 +142,55 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     isTimerTextShown: true,
                     autoStart: true,
                   ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: GridView.count(
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    shrinkWrap: true,
-                    crossAxisCount: 2,
-                    childAspectRatio: MediaQuery.of(context).size.width / 350.h,
-                    children: List.generate(4, (index) {
-                      OptionsData optionsData = new OptionsData(
-                          color: optionColors[index],
-                          isCorrect: options[index] ==
-                              widget.questions.results[_counter].correctAnswer,
-                          option: options[index],
-                          optionLetter: ["A", "B", "C", "D"][index],
-                          correctAnswer:
-                              widget.questions.results[_counter].correctAnswer);
-                      return SizedBox(
-                        child: Hero(
-                          tag: options[index],
-                          child: GestureDetector(
-                            onTap: () async {
-                              _countDownController.pause();
-                              if(options[index] == widget.questions.results[_counter].correctAnswer)
-                                ++_scoreCount;
-                              await Navigator.of(context)
-                                  .push(AnimatedPageRoute(CorrectAnswerScreen(
-                                data: optionsData,
-                                questionNumber: _counter+1,
-                                score: _scoreCount,
-                              )));
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: GridView.count(
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      shrinkWrap: true,
+                      crossAxisCount: 2,
+                      childAspectRatio: MediaQuery.of(context).size.width / 350.h,
+                      children: List.generate(4, (index) {
+                        OptionsData optionsData = new OptionsData(
+                            color: optionColors[index],
+                            isCorrect: options[index] ==
+                                widget.questions.results[_counter].correctAnswer,
+                            option: options[index],
+                            optionLetter: ["A", "B", "C", "D"][index],
+                            correctAnswer:
+                                widget.questions.results[_counter].correctAnswer);
+                        return SizedBox(
+                          child: Hero(
+                            tag: options[index],
+                            child: GestureDetector(
+                              onTap: () async {
+                                _countDownController.pause();
+                                if(options[index] == widget.questions.results[_counter].correctAnswer)
+                                  ++_scoreCount;
+                                await Navigator.of(context)
+                                    .push(AnimatedPageRoute(CorrectAnswerScreen(
+                                  data: optionsData,
+                                  questionNumber: _counter+1,
+                                  score: _scoreCount,
+                                )));
 
-                              nextQuestion();
-                            },
-                            child: OptionCard(
-                              optionsData: optionsData,
+                                nextQuestion();
+                              },
+                              child: OptionCard(
+                                optionsData: optionsData,
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
+                    ),
                   ),
-                ),
-                SizedBox(
-                  height: 30.h,
-                )
-              ],
+                  SizedBox(
+                    height: 30.h,
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -221,22 +222,25 @@ class _OptionCardState extends State<OptionCard> {
               Spacer(),
               CircleAvatar(
                 backgroundColor: widget.optionsData.color,
-                radius: 25,
+                radius: 25.h,
                 child: Text(
                   widget.optionsData.optionLetter,
                   style: GoogleFonts.poppins(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 24),
+                      fontSize: 24.sp),
                 ),
               ),
               Spacer(),
-              AutoSizeText(
-                widget.optionsData.option,
-                maxLines: 3,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w700, fontSize: 24),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal:5.0),
+                child: AutoSizeText(
+                  widget.optionsData.option,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w700, fontSize: 24.sp),
+                ),
               ),
               Spacer(),
             ],

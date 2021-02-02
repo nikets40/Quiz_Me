@@ -14,17 +14,16 @@ class ApiProvider {
     return Categories.fromJson(jsonDecode(categories));
   }
 
-  Future<Questions> fetchQuestions(
+  Future fetchQuestions(
       {@required int categoryID,
       @required int numberOFQuestions,
       @required String difficulty}) async {
     String url = baseURL +
         "api.php?amount=$numberOFQuestions&category=$categoryID&difficulty=${difficulty.toLowerCase()}&type=multiple";
     print(url);
-    final http.Response response = await http.get(url);
+    http.Response response;
 
-    print(response.body);
-
+    response = await http.get(url);
     return Questions.fromJson(jsonDecode(response.body), response.statusCode);
   }
 }
